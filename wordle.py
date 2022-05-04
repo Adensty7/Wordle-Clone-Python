@@ -49,7 +49,13 @@ n = 5
 # For n letters, n+1 tries
 for i in range(0, n+1):
     # Taking input word and checking if any letter or whole word matches
+
     t = input("WORD: ")
+    while t not in words:
+        if t not in words:
+            print("Try again!")
+            t = input("WORD: ")
+
 
     for j in range(0, n):
         # For each case, different color for the letter
