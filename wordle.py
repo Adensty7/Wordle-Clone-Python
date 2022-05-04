@@ -50,11 +50,11 @@ n = 5
 for i in range(0, n+1):
     # Taking input word and checking if any letter or whole word matches
 
-    t = input("WORD: ")
+    t = input("WORD: ").upper()
     while t not in words:
         if t not in words:
             print("Try again!")
-            t = input("WORD: ")
+            t = input("WORD: ").upper()
 
 
     for j in range(0, n):
