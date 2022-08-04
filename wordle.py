@@ -1,5 +1,6 @@
 import random # For picking a random word
 import os # For coloring letters in the terminal
+import time
 
 # System call
 # os.system("")
@@ -32,7 +33,9 @@ with open("5_letter_words.txt") as words_file: # Using this method, we do not ne
 
 # Picking a random word from the list
 word = random.choice(words)
-
+letters = []
+for w in word:
+    letters.append(w)
 # Variable for win
 win = 0
 
@@ -53,18 +56,48 @@ for i in range(0, n+1):
     t = input("WORD: ").upper()
     while t not in words:
         if t not in words:
-            print("Try again!")
+            print("Word not in list! Try again!")
             t = input("WORD: ").upper()
 
+    f = {}
+    f2 = {}
+    for j in range(65, 91):
+        f[chr(j)] = 0
+        f2[chr(j)] = 0
+
+    for w in word:
+        f[w] += 1
+
+    bulls = []
+    cows = []
+
+    for g in t:
+        f2[g] += 1
+
+    for j in range(0, n):
+        if t[j] == word[j]:
+            bulls.append(j)
+            f[t[j]] -= 1
+            f2[t[j]] -= 1
+
+    for j in range(0, n):
+        if j not in bulls:
+            if min(f[t[j]], f2[t[j]]) > 0:
+                f[t[j]] -= 1
+                f2[t[j]] -= 1
+                cows.append(j)
 
     for j in range(0, n):
         # For each case, different color for the letter
-        if word[j] == t[j]:
+        if j in bulls:
             print(style.GREEN + t[j], end="")
-        elif word[j] != t[j] and t[j] in word:
+            time.sleep(1)
+        elif j in cows:
             print(style.YELLOW + t[j], end="")
+            time.sleep(1)
         else:
             print(style.RESET + t[j], end="")
+            time.sleep(1)
     print(style.RESET + "")
     if word == t:
         win = 1
@@ -74,6 +107,7 @@ for i in range(0, n+1):
 
 if win == 1:
     print("You win!!!")
+    print(f"You guessed it in {i+1} tries")
 else:
     print("You lost!!!")
     print(f"The word was {word}")
